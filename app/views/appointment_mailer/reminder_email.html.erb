@@ -1,0 +1,3 @@
+<p>Dear <%= @patient.first_name %><%= @patient.last_name %>,</p>
+<p>You have an appointment scheduled at <%= @appointment.appointment_time.strftime("%I:%M %p") %>.</p>
+<p>Please be on time!</p>

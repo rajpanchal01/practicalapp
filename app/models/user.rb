@@ -9,4 +9,13 @@ class User < ApplicationRecord
 
   has_many :device_details, dependent: :destroy
   has_many :time_slots, foreign_key: :doctor_id, dependent: :destroy
+  # For doctors, linking to appointments where the user is the doctor
+  has_many :appointments, foreign_key: :doctor_id, class_name: "Appointment"
+
+  # For patients, linking to appointments where the user is the patient
+  has_many :patient_appointments, foreign_key: :patient_id, class_name: "Appointment"
+
+  def full_name
+    first_name + " " + last_name
+  end
 end

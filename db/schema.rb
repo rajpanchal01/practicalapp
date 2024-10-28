@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_08_113211) do
+ActiveRecord::Schema.define(version: 2024_10_28_080043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appointments", force: :cascade do |t|
+    t.bigint "doctor_id", null: false
+    t.bigint "patient_id", null: false
+    t.datetime "appointment_time", null: false
+    t.datetime "end_time", null: false
+    t.bigint "time_slot_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doctor_id", "appointment_time", "end_time"], name: "index_appointments_on_doctor_and_time", unique: true
+    t.index ["doctor_id"], name: "index_appointments_on_doctor_id"
+    t.index ["patient_id"], name: "index_appointments_on_patient_id"
+    t.index ["time_slot_id"], name: "index_appointments_on_time_slot_id"
+  end
 
   create_table "device_details", force: :cascade do |t|
     t.string "authentication_token"
@@ -76,5 +90,8 @@ ActiveRecord::Schema.define(version: 2022_05_08_113211) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "appointments", "time_slots"
+  add_foreign_key "appointments", "users", column: "doctor_id"
+  add_foreign_key "appointments", "users", column: "patient_id"
   add_foreign_key "device_details", "users"
 end

@@ -11,4 +11,12 @@ class ApplicationController < ActionController::API
       render json: { errors: "Authentication token required" }, status: :ok
     end
   end
+
+  def check_doctor
+    @current_user.roles.include?(:doctor)
+  end
+  
+  def check_patient 
+    @current_user.roles.include?(:patient)
+  end
 end
